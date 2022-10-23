@@ -45,14 +45,13 @@ Feature Attributes for Quantified Data:
     Nicotine: nicotine consumption
     Semer: class of fictitious drug Semeron consumption (i.e. control)
     VSA: class of volatile substance abuse consumption
-    Alcohol: alcohol consumption
 
 Rating's for Drug Use:
 
     CL0 Never Used
     CL1 Used over a Decade Ago
     CL2 Used in Last Decade
-    CL3 Used in Last Year 59
+    CL3 Used in Last Year
     CL4 Used in Last Month
     CL5 Used in Last Week
     CL6 Used in Last Day
