@@ -1,0 +1,153 @@
+---
+format: 
+  revealjs:
+    css: ./styles.css
+    slide-number: true
+    show-slide-number: all
+    preview-links: auto
+    self-contained: true
+    progress: true
+    history: true
+    hash-type: number
+    theme: default
+    code-block-background: true
+    highlight-style: zenburn
+    code-link: false
+    code-copy: true
+    pagetitle: "Machine Learning in R with tidymodels"
+    author-meta: "Jeffrey Girard"
+    date-meta: "2022-10-26"
+---
+
+::: {.my-title}
+# [Machine Learning]{.blue} <br />in R with tidymodels
+
+::: {.light-silver}
+[Jeffrey M. Girard | University of Kansas]{}<br />
+[Technology in Psychiatry Summit 2022]{}
+:::
+
+![](./img/predictive_analytics_357EDD.svg){.absolute bottom=0 right=0 width=400}
+:::
+
+<!-- Overview -->
+
+# Overview
+
+## Instructor {.smaller}
+
+::: {.columns .pv4}
+::: {.column width="30%"}
+::: {.tc}
+![](./img/Girard_500x500.jpg){.br-100}
+
+**Jeffrey Girard**, PhD<br /> [www.jmgirard.com](https://www.jmgirard.com)<br /> [jmgirard\@ku.edu](mailto:jmgirard@ku.edu)
+:::
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="60%"}
+::: {.fragment}
+#### Background
+
+-   [Assistant Professor]{.b .green}, *University of Kansas*
+-   Research Postdoc, *Carnegie Mellon University*
+-   PhD Student, *University of Pittsburgh*
+:::
+::: {.fragment .mt1}
+#### Research Areas
+
+-   Psychological Assessment
+-   Affective/Interpersonal Communication
+-   Applied [Statistics]{.b .green} and Machine Learning
+-   [Data Science]{.b .green} and Software Engineering
+:::
+:::
+:::
+
+::: footer
+\[1A\] Overview
+:::
+
+## Workshop Overview
+
+## Workshop Datasets
+
+- Drug Consumption
+
+- ???
+
+<!-- Conceptual Introductions -->
+
+# Conceptual Introductions
+
+## What is machine learning?
+
+## Labels and Features
+
+## Classification and regression
+
+## ML Steps
+
+- Feature Engineering
+- Model Development
+- Model Tuning
+- Model Evaluation
+- (Model Deployment)
+
+## Signal and Noise
+
+## Under and Overfitting
+
+## Bias and Variance
+
+## Use cases for ML
+
+<!-- Steps and Packages -->
+
+# Steps and Packages
+
+## 1. Import data
+
+## 2. Split data for training and testing
+
+## 3. Prepare preprocessing recipe
+
+## 4. Set up model and parameters
+
+## 5. Prepare workflow
+
+## 6. Set up parameter dials for tuning
+
+## 7. Split training data for tuning
+
+## 8. Tune parameters using grid search
+
+## 9. Select values and finalize the workflow
+
+## 10. Refit final workflow to training data
+
+## 11. Evaluate final model on testing data
+
+## 12. Collect and view metrics and predictions
+
+<!-- Classification Example -->
+
+# Classification Example
+
+<!-- Regression Example -->
+
+# Regression Example
+
+<!-- Advanced Previews -->
+
+# Advanced Previews
+
+## Variable Importance
+
+## Workflow Sets
+
+## Model Comparison
+
