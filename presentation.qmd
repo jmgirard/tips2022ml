@@ -85,14 +85,14 @@ format:
 
 - **Walkthrough #1 (Classification)**
 
-  [Drug Consumption]() $(n=1876, p_{\text{cocaine_user}}=0.36)$
+  [Drug Consumption](https://raw.githubusercontent.com/jmgirard/tips2022ml/master/data/drug_consumption.csv) $(n=1876, p_{\text{cocaine_user}}=0.36)$
 
   *How well can we predict who is a cocaine user based on demographics, personality traits, and legal substance use?*
 
 ::: {.fragment .mt1}
 - **Walkthrough #2 (Regression)**
 
-  [Cali House]() $(n=2000, \text{Min}=\$15\text{k}, \text{Max}=\$500\text{k})$
+  [Cali House](https://raw.githubusercontent.com/jmgirard/tips2022ml/master/data/calihouse_2000.csv) $(n=2000, \text{Min}=\$15\text{k}, \text{Max}=\$500\text{k})$
 
   *How well can we predict the median house value of a block in 1990 California based on its houses, population, and location?*
 :::
@@ -101,49 +101,128 @@ format:
 
 # Conceptual Introductions
 
-## What is machine learning? {.smaller}
+## What is machine learning?
 
-The field of machine learning (ML) is a **branch of computer science**
+- Machine learning (ML) is a **branch of computer science**
 
-ML researchers **develop algorithms** with the capacity to [learn from data]{.blue}
+- ML researchers **develop algorithms** that [learn from data]{.b .green}
 
-When algorithms learn from (i.e., are **trained on**) data, they create **models**<sup>1</sup>
+- When algorithms learn from data, they create **models**
 
-<p style="padding-top:20px;">This workshop is all about applying ML algorithms to create .imp[predictive models]</p>
+::: {.mt1 .fragment}
+- This workshop is about creating [predictive models]{.b .green}
 
-The goal will be to **predict unknown values** of important variables **in new data**
+- Our goal will be to **use known/available information**...
 
-.footnote[
-[1] ML models are commonly used for prediction, data mining, and data generation.
-]
+- To **predict unknown/unavailable information**...
 
-## Labels and Features
+- Ideally in a way that generalized to **novel/unseen data**
+:::
 
-## Classification and regression
+::: footer
+*Note.* ML researchers also create models for other purposes (e.g., data generation).
+:::
 
-## Machine Learning Steps {.smaller}
+## Roles in Predictive Modeling {.f2}
 
-- **Data Preparation**
-  - Importing, Tidying, Splitting
+[Labels / Outcomes]{.b .blue}
+
+- Labels are [variables we want to predict]{.b .blue} the unknown values of
+
+- Labels tend to be **expensive** or **difficult to measure** in new data
+
+- Labels may also describe **subjective** experiences or **future** events
+
+- *e.g., diagnoses, treatment response, substance use, suicide attempts*
+
+::: {.mt1 .fragment}
+[Features / Predictors]{.b .green}
+
+- Features are [variables we use to predict]{.b .green} the unknown label values
+
+- Features tend to be relatively **cheap** and **easy to measure** in new data
+
+- *e.g., demographics, self-reports, digital behavior, neurobiology*
+:::
+
+## Modes of Predictive Modeling {.f2}
+
+[Classification]{.b .blue}
+
+- When labels are [categorical]{.b .blue}, predicting them is called "classification"
+
+- *e.g., Will this patient respond to treatment or not?*
+
+- *e.g., Is this patient depressed, euthymic, or manic?*
+
+::: {.mt1 .fragment}
+[Regression]{.b .green}
+
+- When labels are [continuous]{.b .green}, predicting them is called "regression"
+
+- *e.g., How many days will the patient be hospitalized for?*
+
+- *e.g., How much of the drug will be in the patient's blood?*
+:::
+
+::: footer
+*Note.* Unsupervised ML (or "data mining") has no explicit labels.
+:::
+
+## Comprehension Check
+
+::: {.f2}
+Ann has developed an ML system that looks at a patient's physiological signals and tries to determine whether they are having a micro-seizure.
+:::
+
+::: columns
+::: column
+::: {.f30}
+**1. The features are the _____<br />and the labels are the _____.**
+
+a) physiological signals;<br />physiological signals
+
+b) physiological signals;<br />micro-seizure (yes/no)
+
+c) micro-seizure (yes/no);<br />physiological signals
+
+d) micro-seizure (yes/no);<br />micro-seizure (yes/no)
+:::
+:::
+
+::: column
+::: {.f30}
+**2. Which "mode" of predictive modeling is Ann using for her ML system?**
+
+a) Regression<br /><br />
+
+b) Classification<br /><br />
+
+c) Unsupervised Learning<br /><br />
+
+d) Data Mining
+:::
+:::
+:::
+
+## Machine Learning Steps {.f2}
+
+- **Data Preparation**: Importing, Tidying, Splitting
   
 ::: {.fragment}
-- **Model Development**
-  - Feature Engineering, Model Specification
+- **Model Development**: Feature Engineering, Model Specification
 :::
 
 ::: {.fragment}
-- **Model Tuning**
-  - Resampling, Optimization, Selection
+- **Model Tuning**: Resampling, Optimization, Selection
 :::
 
 ::: {.fragment}
-- **Model Evaluation**
-  - Performance, (Comparison), (Utility)
+- **Model Evaluation**: Performance, (Comparison), (Utility)
 :::
 
 ::: {.fragment}
-- **Model Use**
-  - Explanation, (Deployment), (Updating)
+- **Model Use**: Explanation, (Deployment), (Updating)
 :::
 
 ## Signal and Noise
@@ -580,7 +659,7 @@ ch_final |>
 
 # Advanced Previews
 
-## Data Splitting and Preprocessing {.smaller}
+## Data Splitting and Preprocessing {.f30}
 
 - Clustered and longitudinal data
   
@@ -607,7 +686,7 @@ ch_final |>
   - `recipes::step_impute_knn()`
 :::
 
-## Development and Tuning {.smaller}
+## Development and Tuning {.f30}
 
 - Alternative algorithms
 
@@ -630,7 +709,7 @@ ch_final |>
   - `stacks::blend_predictions()`
 :::
 
-## Model Evaluation {.smaller}
+## Model Evaluation {.f30}
 
 - Workflow sets and parallelization
 
@@ -656,7 +735,7 @@ ch_final |>
 *Note.* The {yardstick} team is currently adding calibration metrics.
 :::
 
-## Explanation and Deployment {.smaller}
+## Explanation and Deployment {.f30}
 
 - Advanced model explanations
 
@@ -724,7 +803,7 @@ set_engine("glmnet")
 :::
 
 ::: {.mt2}
-4. Rerun the model from Walkthrough #2 using the [full Cali House dataset]() $(n=19675)$ rather than the downsampled version
+4. Rerun the model from Walkthrough #2 using the [full Cali House dataset](https://github.com/jmgirard/tips2022ml/blob/master/data/calihouse.csv?raw=true) $(n=19675)$ rather than the downsampled version
 :::
 
 
