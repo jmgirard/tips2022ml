@@ -1,5 +1,6 @@
 library(tidyverse)
 ch <- read_csv("./data/calihouse_raw.csv", show_col_types = FALSE)
+set.seed(2022)
 ch_tidy <- 
   ch |> 
   transmute(
@@ -21,3 +22,12 @@ ch_tidy <-
   # Remove censoring
   filter(house_mdn_value != 500001)
 write_csv(ch_tidy, "./data/calihouse.csv")
+ch_downsample <- 
+  ch_tidy |> 
+  # Downsample with stratification
+  mutate(strata = cut_number(house_mdn_value, n = 10)) |> 
+  group_by(strata) |> 
+  slice_sample(n = 200, replace = FALSE) |> 
+  ungroup() |> 
+  select(-strata)
+write_csv(ch_downsample, "./data/calihouse_2000.csv")

@@ -25,7 +25,7 @@ format:
 
 ::: {.light-silver}
 [Jeffrey M. Girard | University of Kansas]{}<br />
-[Technology in Psychiatry Summit 2022]{}
+[Technology in Psychiatry Summit 2022]{.i}
 :::
 
 ![](./img/predictive_analytics_357EDD.svg){.absolute bottom=0 right=0 width=400}
@@ -60,47 +60,91 @@ format:
 ::: {.fragment .mt1}
 #### Research Areas
 
--   Psychological Assessment
+-   Psychological/Clinical Assessment
 -   Affective/Interpersonal Communication
--   Applied [Statistics]{.b .green} and Machine Learning
+-   Applied Statistics and [Machine Learning]{.b .green}
 -   [Data Science]{.b .green} and Software Engineering
 :::
 :::
 :::
 
-::: footer
-\[1A\] Overview
-:::
-
 ## Workshop Overview
+1. Conceptual Introductions
+
+2. Walkthrough #1 (Classification)
+
+3. Walkthrough #2 (Regression)
+
+4. Advanced Previews
+
+5. Question and Answer
+
+6. Practice Assignments
 
 ## Workshop Datasets
 
-- [Drug Consumption]() $(n=1876, p_c=0.36, p_m=0.22)$
+- **Walkthrough #1 (Classification)**
 
-  *How well can we predict who is a cocaine or meth user based on demographics, personality traits, and legal substance use?*
+  [Drug Consumption]() $(n=1876, p_{\text{cocaine_user}}=0.36)$
 
-- [Cali House]() $(n=19665, \text{Min}=\$15\text{k}, \text{Max}=\$500\text{k})$
+  *How well can we predict who is a cocaine user based on demographics, personality traits, and legal substance use?*
+
+::: {.fragment .mt1}
+- **Walkthrough #2 (Regression)**
+
+  [Cali House]() $(n=2000, \text{Min}=\$15\text{k}, \text{Max}=\$500\text{k})$
 
   *How well can we predict the median house value of a block in 1990 California based on its houses, population, and location?*
+:::
 
 <!-- Conceptual Introductions -->
 
 # Conceptual Introductions
 
-## What is machine learning?
+## What is machine learning? {.smaller}
+
+The field of machine learning (ML) is a **branch of computer science**
+
+ML researchers **develop algorithms** with the capacity to [learn from data]{.blue}
+
+When algorithms learn from (i.e., are **trained on**) data, they create **models**<sup>1</sup>
+
+<p style="padding-top:20px;">This workshop is all about applying ML algorithms to create .imp[predictive models]</p>
+
+The goal will be to **predict unknown values** of important variables **in new data**
+
+.footnote[
+[1] ML models are commonly used for prediction, data mining, and data generation.
+]
 
 ## Labels and Features
 
 ## Classification and regression
 
-## ML Steps
+## Machine Learning Steps {.smaller}
 
-- Feature Engineering
-- Model Development
-- Model Tuning
-- Model Evaluation
-- (Model Deployment)
+- **Data Preparation**
+  - Importing, Tidying, Splitting
+  
+::: {.fragment}
+- **Model Development**
+  - Feature Engineering, Model Specification
+:::
+
+::: {.fragment}
+- **Model Tuning**
+  - Resampling, Optimization, Selection
+:::
+
+::: {.fragment}
+- **Model Evaluation**
+  - Performance, (Comparison), (Utility)
+:::
+
+::: {.fragment}
+- **Model Use**
+  - Explanation, (Deployment), (Updating)
+:::
 
 ## Signal and Noise
 
@@ -117,11 +161,11 @@ Predict cocaine use from demographics and personality
 
 ## 1. Import and tidy data
 
-We will load our data from a local text (i.e., CSV) file
+We load our data from a local text (i.e., CSV) file
 
-We will coerce all categorical variables to factors
+We coerce all categorical variables to explicit factors
 
-We will retain only feature and label variables
+We retain only features/predictors and our label/outcome
 
 ```{r, eval=FALSE, echo=TRUE}
 # Load the tidyverse package for data reading and tidying
@@ -131,16 +175,23 @@ drugs <-
   # Read in data from CSV file
   read_csv("./data/drug_consumption.csv", show_col_types = FALSE) |> 
   # Transform categorical variables into factors
-  mutate(across(c(Age:Ethnicity, Caff:VSA), factor)) |> 
+  mutate(
+    across(c(Age:Ethnicity, Caff:Nicotine), factor),
+    Coke = factor(Coke, levels = c(1, 0))  # Set positive class first
+  ) |> 
   # Drop unneeded variables
   select(Age:Nicotine, Coke)
 ```
 
+::: footer
+*Note.* Read ["R for Data Science"](https://r4ds.had.co.nz/) to learn about efficient data tidying in R.
+:::
+
 ## 2. Split data for training and testing
 
-We will use 80% of the data for "training" and 20% for "testing"
+We use 80% of the data for "training" and 20% for "testing"
 
-We will stratify both sets by our outcome variable (i.e., `Coke`)
+We stratify both sets by our outcome variable (cocaine use)
 
 ```{r, eval=FALSE, echo=TRUE}
 # Load the tidymodels package for machine learning
@@ -159,9 +210,15 @@ coke_train <- training(coke_split)
 coke_test <- testing(coke_split)
 ```
 
-## 3. Prepare preprocessing recipe
+::: footer
+*Note.* Stratification ensures a similar distribution across all splits.
+:::
 
-We will assign roles and then transform and filter predictors
+## 3. Prepare feature engineering recipe
+
+We assign a role ("outcome" or "predictor") to each variable
+
+We engineer (e.g., transform and filter) the features/predictors
 
 ```{r, eval=FALSE, echo=TRUE}
 coke_recipe <-
@@ -182,14 +239,16 @@ coke_recipe <-
 ```
 
 ::: footer
-*Note.* Many other preprocessing steps are available from [{recipes}](https://recipes.tidymodels.org/).
+*Note.* Many other feature engineering steps are available from [{recipes}](https://recipes.tidymodels.org/).
 :::
 
 ## 4. Set up model and parameters
 
-We will train a Random Forest classifier using {ranger}
+We specify a Random Forest classifier using {ranger}
 
-- We will tune all three parameters: `mtry`, `trees`, and `min_n`
+We specify that all three model parameters should be tuned
+
+We set the "importance" metric for later model explanations
 
 ```{r, eval=FALSE, echo=TRUE}
 # Optional: view documentation for the random forest algorithm
@@ -200,7 +259,7 @@ coke_model <-
   rand_forest(mtry = tune(), trees = tune(), min_n = tune()) |> 
   # Select the prediction mode (classification or regression)
   set_mode("classification") |> 
-  # Select the engine/package to use
+  # Select the engine to use and, optionally, the importance metric
   set_engine("ranger", importance = "impurity")
 ```
 
@@ -210,9 +269,9 @@ coke_model <-
 
 ## 5. Prepare workflow
 
-We will combine our recipe and model into a workflow
+We combine our recipe and model into a "workflow" object
 
-- This will make these processes easy to repeat during tuning
+This helps R to repeat everything correctly during tuning
 
 ```{r, eval=FALSE, echo=TRUE}
 # Combine recipe and model specification into a workflow
@@ -223,21 +282,22 @@ coke_wflow <-
 ```
 
 ::: footer
-*Note.* We could also combine multiple workflows into a [workflow set](https://www.tmwr.org/workflow-sets.html#tuning-and-evaluating-the-models).
+*Note.* We could also combine multiple workflows into [{workflowsets}](https://workflowsets.tidymodels.org).
 :::
 
-## 6. Tune parameters using grid search
+## 6. Tune parameter values
 
-We will perform tuning using 10-fold CV in the training set
+We split the training set into folds for cross-validation
+
+We try lots of different values and record their performance
 
 ```{r, eval=FALSE, echo=TRUE}
 # Create 10-fold CV within training set for tuning
-coke_folds <- vfold_cv(coke_train, v = 10, repeats = 1, strata = Coke)
+coke_folds <- vfold_cv(coke_train, v = 10, strata = Coke)
 
 # Pick reasonable boundaries for the tuning parameters
 coke_param <-
-  coke_model |> 
-  extract_parameter_set_dials() |> 
+  extract_parameter_set_dials(coke_model) |> 
   finalize(coke_folds)
 
 # Create and search over a grid of parameter values within boundaries
@@ -246,15 +306,19 @@ coke_tune <-
   tune_grid(
     resamples = coke_folds,
     param_info = coke_param,
-    grid = 20 # how many combinations of values to try?
+    grid = 20 # how many combinations to try? (more is better but slower)
   )
 ```
 
 ::: footer
-*Note.* The `grid` value should be higher (e.g., 125+); I only chose 20 to keep tuning fast for the workshop.
+*Note.* Other tuning procedures are available from [{tune}](https://tune.tidymodels.org) and  [{finetune}](https://finetune.tidymodels.org).
 :::
 
 ## 7. Finalize the workflow
+
+We select our final parameter values from the tuning results
+
+We refit to the entire training set and apply it to the testing set
 
 ```{r, eval=FALSE, echo=TRUE}
 # Select the best parameters values
@@ -265,13 +329,21 @@ coke_wflow_final <-
   coke_wflow |> 
   finalize_workflow(coke_param_final)
 
-# Fit the finalized workflow to the training set and evaluate in testing set
+# Fit the finalized workflow to training set and apply it to testing set
 coke_final <-
   coke_wflow_final |> 
   last_fit(coke_split)
 ```
 
+::: footer
+*Note.* More complicated selection procedures are available from [{tune}](https://tune.tidymodels.org).
+:::
+
 ## 8. Evaluate model performance
+
+We compare the test set predictions to their labels
+
+We make a confusion matrix and ROC curve (for classification)
 
 ```{r, eval=FALSE, echo=TRUE}
 # View the metrics (from the testing set)
@@ -288,13 +360,17 @@ autoplot(coke_cm, type = "heatmap")
 summary(coke_cm)
 
 # Calculate and plot ROC curve
-coke_rc <- roc_curve(coke_pred, truth = Coke, .pred_0)
+coke_rc <- roc_curve(coke_pred, truth = Coke, .pred_1)
 autoplot(coke_rc)
 ```
 
+::: footer
+*Note.* Many other performance tools are available from [{yardstick}](https://yardstick.tidymodels.org).
+:::
+
 ## Bonus: Explore variable importance
 
-We can examine which variables were most important to prediction
+Which variables were most important to prediction?
 
 - Not all algorithms support variable importance measures
 
@@ -324,8 +400,11 @@ library(vip)
 # 1. Import and tidy data
 drugs <- 
   read_csv("./data/drug_consumption.csv", show_col_types = FALSE) |> 
-  select(Age:Nicotine, Coke) |> 
-  mutate(across(c(Age:Ethnicity, Caff:Coke), factor))
+  mutate(
+    across(c(Age:Ethnicity, Caff:Nicotine), factor),
+    Coke = factor(Coke, levels = c(1, 0))
+  ) |> 
+  select(Age:Nicotine, Coke)
 
 # 2. Split data for training and testing
 set.seed(2022)
@@ -356,10 +435,9 @@ coke_wflow <-
   add_model(coke_model)
 
 # 6. Tune parameters using grid search
-coke_folds <- vfold_cv(coke_train, v = 10, repeats = 1, strata = Coke)
+coke_folds <- vfold_cv(coke_train, v = 10, strata = Coke)
 coke_param <-
-  coke_model |> 
-  extract_parameter_set_dials() |> 
+  extract_parameter_set_dials(coke_model) |> 
   finalize(coke_folds)
 coke_tune <-
   coke_wflow |> 
@@ -410,11 +488,15 @@ To adapt this process to regression, we only need to:
 
 - Select an algorithm that supports regression
 
+  (Note that some support both, e.g., random forest)
+  
 - Set the prediction mode to "regression"
 
-- Use a regression performance metric (e.g., RMSE)
+- Use regression performance metrics (e.g., RMSE or $R^2$)
 
 - Skip the confusion matrix and ROC curve
+
+  (We can instead plot predictions against trusted labels)
 
 ## Putting it all together... again
 
@@ -424,7 +506,7 @@ library(tidymodels)
 library(vip)
 
 # 1. Import and tidy data
-calihouse <- read_csv("./data/calihouse.csv", show_col_types = FALSE)
+calihouse <- read_csv("./data/calihouse_2000.csv", show_col_types = FALSE)
 
 # 2. Split data for training and testing
 set.seed(2022)
@@ -455,7 +537,7 @@ ch_wflow <-
   add_model(ch_model)
 
 # 6. Tune parameters using grid search
-ch_folds <- vfold_cv(ch_train, v = 10, repeats = 1, strata = house_mdn_value)
+ch_folds <- vfold_cv(ch_train, v = 10, strata = house_mdn_value)
 ch_param <-
   ch_model |> 
   extract_parameter_set_dials() |> 
@@ -481,7 +563,7 @@ ch_final <-
 collect_metrics(ch_final)
 ch_pred <- collect_predictions(ch_final)
 ggplot(ch_pred, aes(x = house_mdn_value, y = .pred)) +
-  geom_point(alpha = 1/10) +
+  geom_point(alpha = 1/5) +
   geom_abline() +
   coord_obs_pred()
 
@@ -498,10 +580,151 @@ ch_final |>
 
 # Advanced Previews
 
-## Variable Importance
+## Data Splitting and Preprocessing {.smaller}
 
-## Workflow Sets
+- Clustered and longitudinal data
+  
+  - `rsample::group_vfold_cv()`
+  - `rsample::rolling_origin()`
 
-## Model Comparison
+::: {.fragment}
+- Nested cross-validation
 
-## Model Deployment
+  - `rsample::nested_cv()`
+:::
+
+::: {.fragment}
+- Dimensionality Reduction
+
+  - `recipes::step_pca()`
+  - `recipes::step_nnmf()`
+:::
+
+::: {.fragment}
+- Imputing missing predictors
+
+  - `recipes::step_impute_linear()`
+  - `recipes::step_impute_knn()`
+:::
+
+## Development and Tuning {.smaller}
+
+- Alternative algorithms
+
+  - `parsnip::linear_reg(penalty, mixture)`
+  - `parsnip::logistic_reg(penalty, mixture)`
+  - `parsnip::svm_rbf(cost)`
+
+::: {.fragment}
+- Alternative tuning procedures
+
+  - `tune::tune_bayes()`
+  - `finetune::tune_sim_anneal()`
+  - `finetune::tune_race_anova()`
+:::
+
+::: {.fragment}
+- Combining models into ensembles
+
+  - `stacks::stacks()`
+  - `stacks::blend_predictions()`
+:::
+
+## Model Evaluation {.smaller}
+
+- Workflow sets and parallelization
+
+  - `workflowsets::workflow_set()`
+  - `workflowsets::workflow_map()`
+  - `tune::control_grid()`
+
+::: {.fragment}
+- Advanced/alternative metrics
+
+  - `yardstick::mcc()` or `yardstick::mn_log_loss()`
+  - `yardstick::ccc()` or `yardstick::huber_loss()`
+:::
+
+::: {.fragment}
+- Statistical model comparison
+
+  - `tidyposterior::perf_mod()`
+  - `tidyposterior::contrast_models()`
+:::
+
+::: footer
+*Note.* The {yardstick} team is currently adding calibration metrics.
+:::
+
+## Explanation and Deployment {.smaller}
+
+- Advanced model explanations
+
+  - `DALEXtra::explain_tidymodels()`
+  - `DALEXtra::model_parts()`
+  - `DALEXtra::predict_parts()`
+  - `DALEXtra::model_profile()`
+
+::: {.fragment}
+- Bundling and deploying models
+
+  - `bundle::bundle()`
+  - `vetiver::vetiver_model()`
+:::
+
+
+<!-- Question and Answer -->
+
+# Question and Answer
+
+## Resources {.smaller}
+
+- **Online Textbook:**
+
+  Tidy Modeling with R (Kuhn & Silge)
+  
+  <https://www.tmwr.org>
+
+::: {.mt1}
+- **Package Reference Website:**
+
+  The tidymodels framework (RStudio/Posit)
+  
+  <https://www.tidymodels.org>
+:::
+
+::: {.mt1}
+- **Four-day summer course:**
+
+  Applied Machine Learning in R (Girard & Wang)
+
+  <https://www.pittmethods.com/applied-ml>
+:::
+
+<!-- Practice Assignments -->
+
+# Practice Assignments
+
+## Practice Assignments {.f2}
+
+1. Refit the model from Walkthrough #1 using regularized logistic regression classification and the GLMNET engine:
+
+```{r, eval=FALSE, echo=TRUE}
+logistic_reg(penalty = "tune", mixture = "tune") |> 
+set_mode("classification") |> 
+set_engine("glmnet")
+```
+
+::: {.mt2}
+2. Adjust the model from Walkthrough #1 to predict Methamphetamine use (`Meth`) rather than Cocaine use (`Coke`)
+:::
+
+::: {.mt2}
+3. Adjust the model from Walkthrough #2 to search over a larger grid of 125 parameter values (i.e., 5 unique values for each parameter or $5^3$)
+:::
+
+::: {.mt2}
+4. Rerun the model from Walkthrough #2 using the [full Cali House dataset]() $(n=19675)$ rather than the downsampled version
+:::
+
+

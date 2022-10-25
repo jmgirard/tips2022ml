@@ -149,9 +149,11 @@ iframe.slide-deck {
 
 .br-100 {     border-radius: 100%; }
 .ba { border-style: solid; border-width: 1px; }
-.b      { font-weight: bold; }
+.b  { font-weight: bold; }
+.i  { font-style: italic; }
 .tc  { text-align: center; }
 .tr  { text-align: right; }
+.u { text-decoration: underline; }
 
 .pv4 {
   padding-top: 2rem;
@@ -164,6 +166,7 @@ iframe.slide-deck {
 }
 
 .mt1 {  margin-top: .25rem; }
+.mt2 {  margin-top: .125rem; }
 
 .gray { color: #777777; }
 .silver { color: #999999; }
@@ -210,3 +213,4 @@ iframe.slide-deck {
 .blue { color: #357EDD; }
 
 .f3 { font-size: 20px !important; }
+.f2 { font-size: 35px !important; }
