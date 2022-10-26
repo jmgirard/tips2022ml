@@ -20,9 +20,8 @@ Real data on 1,876 participants' demographics, personality traits, and substance
 <a href="https://jmgirard.github.io/tips2022ml/data/drug_consumption.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
 
 ```{r}
-#| echo: false
+#| echo: true
 #| message: false
-#| eval: true
 read_csv("./data/drug_consumption.csv")
 ```
 

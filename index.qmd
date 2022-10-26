@@ -6,7 +6,7 @@ A three-hour workshop introducing the basic concepts of and applied skills for p
 
 ![](./img/predictive_analytics_357EDD.svg){.hero}
 
-This workshop will provide a hands-on introduction to the application of predictive machine learning in R using the {tidymodels} packages. It will emphasize practical knowledge and conceptual intuitions (e.g., teaching you how to drive a car) rather than technical and theoretical mastery (e.g., teaching you how to build a car). It will cover the basic [{tidymodels}](https://www.tidymodels.org) workflow from data splitting and feature engineering to hyperparameter tuning, cross-validation, and model evaluation. Basic knowledge of R (e.g., simple data structures and importing data) will be assumed but no previous experience with machine learning will be necessary.
+This workshop will provide a hands-on introduction to the application of predictive machine learning in R using the [{tidymodels}](https://www.tidymodels.org) packages. It will emphasize practical knowledge and conceptual intuitions (e.g., teaching you how to drive a car) rather than technical and theoretical mastery (e.g., teaching you how to build a car). It will cover the basic [{tidymodels}](https://www.tidymodels.org) workflow from data splitting and feature engineering to hyperparameter tuning, cross-validation, and model evaluation. Basic knowledge of R (e.g., simple data structures and importing data) will be assumed but no previous experience with machine learning will be necessary. To join the workshop Slack channel, visit <https://bit.ly/tips2022ml>.
 
 ---
 
