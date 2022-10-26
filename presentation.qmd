@@ -182,7 +182,6 @@ format:
 - We want to capture as much signal and as little noise as possible
 
   - We accomplish this by finding the optimal *model complexity*
-  - We do this by finding the optimal model parameter values
 :::
 
 ::: {.fragment}
@@ -333,7 +332,7 @@ ggplot(training, aes(x, y)) +
   theme(panel.grid.minor = element_blank())
 ```
 
-## Two Competing Models
+## Two Competing Models {.f2}
 
 ::: columns
 
@@ -373,7 +372,7 @@ ggplot(training, aes(x, y)) +
 :::
 :::
 
-## Bias (Error in Training Set)
+## Bias (Error in Training Set) {.f2}
 
 ::: columns
 
@@ -433,7 +432,7 @@ ggplot(mapping = aes(x, y)) +
   )
 ```
 
-## A Rematch in New Data
+## A Rematch in New Data {.f2}
 
 ::: columns
 ::: column
@@ -493,7 +492,7 @@ ggplot(mapping = aes(x, y)) +
 :::
 :::
 
-## Variance (Error in Testing Set)
+## Variance (Error in Testing Set) {.f2}
 
 ::: columns
 ::: column
