@@ -3,6 +3,7 @@ title: "Datasets"
 format:
   html:
     df-print: paged
+    self-contained: true
 ---
 
 ```{r}

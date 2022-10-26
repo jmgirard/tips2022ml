@@ -1,1 +1,0 @@
-Sitemap: https://jmgirard.github.io/tips2022ml/sitemap.xml
