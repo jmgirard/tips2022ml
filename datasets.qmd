@@ -1,0 +1,88 @@
+---
+title: "Datasets"
+format:
+  html:
+    df-print: paged
+---
+
+```{r}
+#| echo: false
+#| message: false
+library(tidyverse)
+```
+
+## Primary Datasets
+
+### Drug Consumption
+
+Real data on 1,876 participants' demographics, personality traits, and substance use. Used in Walkthrough #1 to predict cocaine use (`Coke`, classification).
+
+<a href="https://jmgirard.github.io/tips2022ml/data/drug_consumption.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
+
+```{r}
+#| echo: false
+#| message: false
+read_csv("./data/drug_consumption.csv")
+```
+
+### California Housing (Downsampled)
+
+Real data on 2,000 blocks in California from 1990 about houses, population, and location. Used in Walkthrough #2 to predict median house value (`house_mdn_value`, regression).
+
+<a href="https://jmgirard.github.io/tips2022ml/data/calhouse_2000.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
+
+```{r}
+#| echo: false
+#| message: false
+read_csv("./data/calihouse_2000.csv")
+```
+
+## Additional Datasets
+
+### Airline Satisfaction
+
+Real data on the satisfaction and experience of 10,000 customers of an airline. Can be used to predict satisfaction status (`satifaction`, classification).
+
+<a href="https://jmgirard.github.io/tips2022ml/data/airsat.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
+
+```{r}
+#| echo: false
+#| message: false
+read_csv("./data/airsat.csv")
+```
+
+### California Housing (Full)
+
+Real data on 19,675 blocks in California from 1990 about houses, population, and location. Can be used to predict median house value (`house_mdn_value`, regression).
+
+<a href="https://jmgirard.github.io/tips2022ml/data/calihouse.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
+
+```{r}
+#| echo: false
+#| message: false
+read_csv("./data/calihouse.csv")
+```
+
+### Titanic Disaster
+
+Real data on 1,309 passengers on the Titanic. Can be used to predict survival (`survived`, classification) or ticket price (`fare`, regression).
+
+<a href="https://jmgirard.github.io/tips2022ml/data/titanic.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
+
+```{r}
+#| echo: false
+#| message: false
+read_csv("./data/titanic.csv")
+```
+
+### Water Potability
+
+Real data on the potability and chemical properties of 2,011 water bodies. Can be used to predict safety to drink (`Potability`, classification).
+
+<a href="https://jmgirard.github.io/tips2022ml/data/water.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
+
+```{r}
+#| echo: false
+#| message: false
+read_csv("./data/water.csv")
+```

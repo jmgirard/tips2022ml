@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "datasets.html#primary-datasets",
+    "href": "datasets.html#primary-datasets",
+    "title": "Datasets",
+    "section": "Primary Datasets",
+    "text": "Primary Datasets\n\nDrug Consumption\nReal data on 1,876 participants’ demographics, personality traits, and substance use. Used in Walkthrough #1 to predict cocaine use (Coke, classification).\nDownload CSV\n\n\n\n\n  \n\n\n\n\n\nCalifornia Housing (Downsampled)\nReal data on 2,000 blocks in California from 1990 about houses, population, and location. Used in Walkthrough #2 to predict median house value (house_mdn_value, regression).\nDownload CSV"
+  },
+  {
+    "objectID": "datasets.html#additional-datasets",
+    "href": "datasets.html#additional-datasets",
+    "title": "Datasets",
+    "section": "Additional Datasets",
+    "text": "Additional Datasets\n\nAirline Satisfaction\nReal data on the satisfaction and experience of 10,000 customers of an airline. Can be used to predict satisfaction status (satifaction, classification).\nDownload CSV\n\n\n\n\n  \n\n\n\n\n\nCalifornia Housing (Full)\nReal data on 19,675 blocks in California from 1990 about houses, population, and location. Can be used to predict median house value (house_mdn_value, regression).\nDownload CSV\n\n\n\n\n  \n\n\n\n\n\nTitanic Disaster\nReal data on 1,309 passengers on the Titanic. Can be used to predict survival (survived, classification) or ticket price (fare, regression).\nDownload CSV\n\n\n\n\n  \n\n\n\n\n\nWater Potability\nReal data on the potability and chemical properties of 2,011 water bodies. Can be used to predict safety to drink (Potability, classification).\nDownload CSV"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Machine Learning in R with {tidymodels}",
+    "section": "",
+    "text": "This workshop will provide a hands-on introduction to the application of predictive machine learning in R using the {tidymodels} packages. It will emphasize practical knowledge and conceptual intuitions (e.g., teaching you how to drive a car) rather than technical and theoretical mastery (e.g., teaching you how to build a car). It will cover the basic {tidymodels} workflow from data splitting and feature engineering to hyperparameter tuning, cross-validation, and model evaluation. Basic knowledge of R (e.g., simple data structures and importing data) will be assumed but no previous experience with machine learning will be necessary.\n\nThese materials may be re-used according to the CC-BY License."
+  },
+  {
+    "objectID": "slide_container.html",
+    "href": "slide_container.html",
+    "title": "Presentation Slides",
+    "section": "",
+    "text": "Note. To view the slideshow in full screen mode, click inside it and press the “f” key on your keyboard. You can also use the menu by clicking on the icon at the bottom-left of each slide."
+  }
+]

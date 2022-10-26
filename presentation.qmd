@@ -29,7 +29,13 @@ format:
 :::
 
 ![](./img/predictive_analytics_357EDD.svg){.absolute bottom=0 right=0 width=400}
+
+::: footer
+Workshop Slack Channel: <https://bit.ly/tips2022ml>
 :::
+:::
+
+
 
 <!-- Overview -->
 
@@ -205,33 +211,442 @@ d) Data Mining
 :::
 :::
 
-## Machine Learning Steps {.f2}
+## A Delicate Balance {.f2}
 
-- **Data Preparation**: Importing, Tidying, Splitting
+- Any data we collect will contain a mixture of both [signal]{.b} and [noise]{.b}
+
+  - [Informative patterns]{.b .blue} that generalize to new data are the [signal]{.b .blue}
+  - [Distracting patterns]{.b .green} specific to the original data are the [noise]{.b .green}
   
 ::: {.fragment}
-- **Model Development**: Feature Engineering, Model Specification
+- We want to capture as much signal and as little noise as possible
+
+  - We accomplish this by finding the optimal *model complexity*
+  - We do this by finding the optimal model parameter values
 :::
 
 ::: {.fragment}
-- **Model Tuning**: Resampling, Optimization, Selection
+- More complex models capture *more signal* but also *more noise*
+  
+  - **Overfitting:** The model captures unwanted noise (too complex)
+  - **Underfitting:** The model misses important signal (too simple)
+:::
+
+## Model Complexity
+
+```{r complexity, message=FALSE, echo=FALSE}
+library(tidyverse)
+library(patchwork)
+
+set.seed(2021)
+signal <- function(x) {sin(2*pi*x)}
+x_linspace <- seq(0, 1, by = 0.02)
+x_data <- runif(length(x_linspace), 0, 1)
+y_true <- signal(x_linspace)
+y_data <- signal(x_data) + rnorm(length(x_data), 0, 0.25)
+dat <- tibble(
+  x_linspace,
+  x_data,
+  y_true,
+  y_data
+)
+
+p1 <- 
+  ggplot(dat) + 
+  geom_point(aes(x = x_data, y = y_data), shape = 21, size = 3, color = "black", stroke = 1.5) + 
+  stat_smooth(
+    aes(x = x_data, y = y_data), 
+    method = "lm", 
+    se = FALSE,
+    formula = y ~ x, 
+    color = "#7570b3",
+    size = 2
+  ) +
+  coord_cartesian(xlim = c(0, 1)) +
+  labs(title = "Underfitting (d=1)", x = "feature", y = "label") +
+  theme_gray(base_size = 18) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+p2 <- 
+  ggplot(dat) + 
+  geom_point(aes(x = x_data, y = y_data), shape = 21, size = 3, stroke = 1.5, color = "black") + 
+  stat_smooth(
+    aes(x = x_data, y = y_data), 
+    method = "lm",
+    se = FALSE,
+    formula = y ~ poly(x, 3), 
+    color = "#1b9e77",
+    size = 2
+  ) +
+  coord_cartesian(xlim = c(0, 1)) +
+  labs(title = "Good Fit (d=3)", x = "feature", y = NULL) +
+  theme_gray(base_size = 18) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+p3 <- 
+  ggplot(dat) + 
+  geom_point(aes(x = x_data, y = y_data), shape = 21, size = 3, stroke = 1.5, color = "black") + 
+  stat_smooth(
+    aes(x = x_data, y = y_data), 
+    method = "lm",
+    se = FALSE,
+    formula = y ~ poly(x, 16), 
+    color = "#d95f02",
+    size = 2
+  ) +
+  coord_cartesian(xlim = c(0, 1)) +
+  labs(title = "Overfitting (d=16)", x = "feature", y = NULL) +
+  theme_gray(base_size = 18) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+(p1 | p2 | p3)
+```
+
+::: footer
+*Note.* Complexity here is controlled by the highest polynomial degree $(d)$.
+:::
+
+## Overfitting Memes
+
+![](./img/overfitting_lay.png)
+
+## A Super Metaphor {.f2}
+
+- ML's [superpower]{.b .blue} is its ability to [learn complex patterns]{.b .blue}
+
+::: {.fragment}
+- However, its [kryptonite]{.b .green} (i.e., weakness) is its [propensity to overfit]{.b .green}
 :::
 
 ::: {.fragment}
-- **Model Evaluation**: Performance, (Comparison), (Utility)
+- Thus, we must be careful to **detect** and **counteract** overfitting
 :::
 
 ::: {.fragment}
-- **Model Use**: Explanation, (Deployment), (Updating)
+- Our primary tool for these goals is **data splitting**
+
+  - Instead of training our model on all of our data...
+  
+  - We split the data into two completely separate parts
+
+  - We learn feature-label relationships and select the optimal parameter values using one part (the [training set]{.b .blue})
+  
+  - We evaluate the model's ability to generalize to new data in another part that it has never seen before (the [testing set]{.b .green})
 :::
 
-## Signal and Noise
+::: footer
+*Note.* Cross-validation is a sophisticated form of data splitting.
+:::
 
-## Under and Overfitting
+## A Simple Training Set
 
-## Bias and Variance
+```{r overex1, echo=FALSE}
+set.seed(2021)
+training <- data.frame(
+  x = c(1:5) * 20,
+  y = c(21, 20, 28, 24, 30) * 3
+)
+testing <- data.frame(
+  x = c(1.5, 2, 3, 4.5) * 20,
+  y = c(22, 24, 22, 27) * 3
+)
+alldata <- bind_rows(training, testing, .id = "Dataset") %>%
+  mutate(Dataset = factor(Dataset, labels = c("Training", "Testing")))
 
-## Use cases for ML
+config <-   
+  theme_grey(base_size = 18) +
+  theme(panel.grid.minor = element_blank())
+
+ggplot(training, aes(x, y)) + 
+  geom_point(size = 6, color = "#d95f02") +
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = "Test Score") +
+  theme_grey(base_size = 24) +
+  theme(panel.grid.minor = element_blank())
+```
+
+## Two Competing Models
+
+::: columns
+
+::: column
+```{r overex2, echo=FALSE}
+#| fig.width: 4
+#| fig.height: 4
+#| out.width: 100%
+
+ggplot(training, aes(x, y)) + 
+  geom_point(size = 6, color = "#d95f02") +
+  geom_smooth(method = "lm", size = 1.5, color = "black",
+              se = FALSE, formula = y~x, linetype = "dashed") +
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = "Test Score",
+       title = "Model A (d=1)") +
+  config
+```
+
+:::
+
+::: column
+```{r overex3, echo=FALSE}
+#| fig.width: 4
+#| fig.height: 4
+#| out.width: 100%
+
+ggplot(training, aes(x, y)) + 
+  geom_point(size = 6, color = "#d95f02") +
+  ggalt::geom_xspline(color = "black", size = 1.5, spline_shape = -1, linetype = "dashed") + 
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = NULL,
+       title = "Model B (d=4)") +
+  config
+```
+
+:::
+:::
+
+## Bias (Error in Training Set)
+
+::: columns
+
+::: column
+```{r overex2b, echo=FALSE}
+#| fig.width: 4
+#| fig.height: 4
+#| out.width: 100%
+
+ggplot(training, aes(x, y)) + 
+  geom_point(size = 6, color = "#d95f02") +
+  geom_smooth(method = "lm", size = 1.5, color = "black",
+              se = FALSE, formula = y~x, linetype = "dashed") +
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = "Test Score",
+       title = "Model A (d=1)") +
+  config
+```
+Training Error A = 31.2 😟
+:::
+
+::: column
+```{r overex3b, echo=FALSE}
+#| fig.width: 4
+#| fig.height: 4
+#| out.width: 100%
+
+ggplot(training, aes(x, y)) + 
+  geom_point(size = 6, color = "#d95f02") +
+  ggalt::geom_xspline(color = "black", size = 1.5, spline_shape = -1, linetype = "dashed") + 
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = NULL,
+       title = "Model B (d=4)") +
+  config
+```
+Training Error B = 0.0 🤩
+:::
+:::
+
+## A Simple Testing Set
+
+```{r overex4, echo=FALSE}
+ggplot(mapping = aes(x, y)) +
+  geom_point(
+    data = alldata, 
+    aes(shape = Dataset, color = Dataset), 
+    size = 6
+  ) +
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = "Test Score") +
+  theme_grey(base_size = 24) +
+  theme(panel.grid.minor = element_blank(),
+        legend.spacing.y = unit(0.5, 'cm')) +
+  guides(
+    color = guide_legend(byrow = TRUE), 
+    shape = guide_legend(byrow = TRUE)
+  )
+```
+
+## A Rematch in New Data
+
+::: columns
+::: column
+```{r overex5, echo=FALSE}
+#| fig.width: 4
+#| fig.height: 4
+#| out.width: 100%
+
+ggplot(mapping = aes(x, y)) +
+  geom_point(
+    data = testing, 
+    shape = "triangle",
+    color = "#00BFC4",
+    size = 6
+  ) +
+  geom_smooth(
+    data = training,
+    method = "lm",
+    se = FALSE,
+    color = "black",
+    size = 1.5,
+    linetype = "dashed"
+  ) + 
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = "Test Score",
+       title = "Model A (d=1)") +
+  config
+```
+:::
+
+::: column
+```{r overex6, warning=FALSE, echo=FALSE}
+#| fig.width: 4
+#| fig.height: 4
+#| out.width: 100%
+
+ggplot(mapping = aes(x, y)) +
+  geom_point(
+    data = testing, 
+    shape = "triangle",
+    color = "#00BFC4",
+    size = 6
+  ) +
+  ggalt::geom_xspline(
+    data = training,
+    spline_shape = -1,
+    color = "black",
+    size = 1.5,
+    linetype = "dashed",
+    aes(outfit = fity <<-..y..)
+  ) + 
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = "Test Score",
+       title = "Model B (d=4)") +
+  config
+```
+:::
+:::
+
+## Variance (Error in Testing Set)
+
+::: columns
+::: column
+```{r overex5b, echo=FALSE}
+#| fig.width: 4
+#| fig.height: 4
+#| out.width: 100%
+
+ggplot(mapping = aes(x, y)) +
+  geom_point(
+    data = testing, 
+    shape = "triangle",
+    color = "#00BFC4",
+    size = 6
+  ) +
+  geom_smooth(
+    data = training,
+    method = "lm",
+    se = FALSE,
+    color = "black",
+    size = 1.5,
+    linetype = "dashed"
+  ) + 
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = "Test Score",
+       title = "Model A (d=1)") +
+  config
+```
+Testing Error A = 17.4 🙂
+:::
+
+::: column
+```{r overex6b, warning=FALSE, echo=FALSE}
+#| fig.width: 4
+#| fig.height: 4
+#| out.width: 100%
+
+ggplot(mapping = aes(x, y)) +
+  geom_point(
+    data = testing, 
+    shape = "triangle",
+    color = "#00BFC4",
+    size = 6
+  ) +
+  ggalt::geom_xspline(
+    data = training,
+    spline_shape = -1,
+    color = "black",
+    size = 1.5,
+    linetype = "dashed",
+    aes(outfit = fity <<-..y..)
+  ) + 
+  coord_cartesian(ylim = c(50, 100), xlim = c(20, 100)) +
+  labs(x = "Study Time", y = "Test Score",
+       title = "Model B (d=4)") +
+  config
+```
+Testing Error B = 41.6 😨
+:::
+:::
+
+## Conclusions from Example {.f2}
+
+- In ML, model **"bias"** is prediction error in the original data
+
+- In ML, model **"variance"** is prediction error in new/unseen data
+
+::: {.fragment}
+- An ideal model would have low bias and low variance
+
+- However, there is often an inherent **bias-variance tradeoff**
+
+  - We may counterintuitively prefer a model with more bias...
+  - Because accuracy *in new data* is the most important thing!
+:::
+
+
+::: {.fragment}
+- We want to the model that is as simple as possible but no simpler
+
+- We will thus "tune" our models to try to achieve this balance
+
+  - We will search for parameter values with the least variance
+:::
+
+## Tuning Complexity for Variance
+
+![](./img/overfitting.png)
+
+
+## Machine Learning Steps {.f2}
+
+- [Data Preparation]{.b .blue}: Importing, Tidying, Splitting
+  
+::: {.fragment}
+- [Model Development]{.b .blue}: Feature Engineering, Model Specification
+:::
+
+::: {.fragment}
+- [Model Tuning]{.b .blue}: Resampling, Optimization, Selection
+:::
+
+::: {.fragment}
+- [Model Evaluation]{.b .blue}: Performance, (Comparison), (Utility)
+:::
+
+::: {.fragment}
+- [Model Use]{.b .blue}: Explanation, (Deployment), (Updating)
+:::
 
 <!-- Classification Example -->
 
@@ -803,7 +1218,7 @@ set_engine("glmnet")
 :::
 
 ::: {.mt2}
-4. Rerun the model from Walkthrough #2 using the [full Cali House dataset](https://github.com/jmgirard/tips2022ml/blob/master/data/calihouse.csv?raw=true) $(n=19675)$ rather than the downsampled version
+4. Explore the additional datasets on the [workshop website](https://jmgirard.github.io/tips2022ml/datasets) and adapt your code to build a predictive model for one of these datasets.
 :::
 
 

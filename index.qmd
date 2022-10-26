@@ -1,11 +1,13 @@
 ---
-title: "tips2022ml"
+title: "Machine Learning in R with {tidymodels}"
 ---
 
-This is a Quarto website.
+A three-hour workshop introducing the basic concepts of and applied skills for predictive machine learning in R. Developed and instructed by [Jeffrey Girard](https://github.com/jmgirard) for the [Technology in Psychiatry Summit](https://home.mcleanhospital.org/tips) (October 26, 2022).
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+![](./img/predictive_analytics_357EDD.svg){.hero}
 
-```{r}
-1 + 1
-```
+This workshop will provide a hands-on introduction to the application of predictive machine learning in R using the {tidymodels} packages. It will emphasize practical knowledge and conceptual intuitions (e.g., teaching you how to drive a car) rather than technical and theoretical mastery (e.g., teaching you how to build a car). It will cover the basic [{tidymodels}](https://www.tidymodels.org) workflow from data splitting and feature engineering to hyperparameter tuning, cross-validation, and model evaluation. Basic knowledge of R (e.g., simple data structures and importing data) will be assumed but no previous experience with machine learning will be necessary.
+
+---
+
+These materials may be re-used according to the [CC-BY License](./LICENSE.md).
