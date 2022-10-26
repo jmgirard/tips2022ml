@@ -4,7 +4,7 @@
     "href": "datasets.html#primary-datasets",
     "title": "Datasets",
     "section": "Primary Datasets",
-    "text": "Primary Datasets\n\nDrug Consumption\nReal data on 1,876 participants’ demographics, personality traits, and substance use. Used in Walkthrough #1 to predict cocaine use (Coke, classification).\nDownload CSV\n\nread_csv(\"./data/drug_consumption.csv\")\n\n\n\n  \n\n\n\n\n\nCalifornia Housing\nReal data on 2,000 blocks in California from 1990 about houses, population, and location. Used in Walkthrough #2 to predict median house value (house_mdn_value, regression).\nDownload CSV"
+    "text": "Primary Datasets\n\nDrug Consumption\nReal data on 1,876 participants’ demographics, personality traits, and substance use. Used in Walkthrough #1 to predict cocaine use (Coke, classification).\nDownload CSV\n\n\n\n\n  \n\n\n\n\n\nCalifornia Housing\nReal data on 2,000 blocks in California from 1990 about houses, population, and location. Used in Walkthrough #2 to predict median house value (house_mdn_value, regression).\nDownload CSV"
   },
   {
     "objectID": "datasets.html#additional-datasets",
