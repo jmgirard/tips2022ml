@@ -52,14 +52,13 @@ format:
 :::
 
 ::: {.column width="60%"}
-::: {.fragment}
 #### Background
 
 -   [Assistant Professor]{.b .green}, *University of Kansas*
--   Research Postdoc, *Carnegie Mellon University*
--   PhD Student, *University of Pittsburgh*
-:::
-::: {.fragment .mt1}
+-   Clinical Psychological Science Program
+-   Brain, Behavior, and Quantitative Science Program
+
+::: {.mt1}
 #### Research Areas
 
 -   Psychological/Clinical Assessment
@@ -70,12 +69,13 @@ format:
 :::
 :::
 
-## Workshop Overview
+## Workshop Overview {.f2}
+
 1. Conceptual Introductions
 
-2. Walkthrough #1 (Classification)
+2. Walkthrough #1
 
-3. Walkthrough #2 (Regression)
+3. Walkthrough #2
 
 4. Advanced Previews
 
@@ -83,16 +83,20 @@ format:
 
 6. Practice Assignments
 
+**Workshop Website:** [jmgirard.github.io/tips2022ml](https://jmgirard.github.io/tips2022ml/)
+
+**Workshop Slack:** [bit.ly/tips2022ml](https://bit.ly/tips2022ml)
+
 ## Workshop Datasets
 
-- **Walkthrough #1 (Classification)**
+- **Walkthrough #1**
 
   [Drug Consumption](https://jmgirard.github.io/tips2022ml/data/drug_consumption.csv) $(n=1876, p_{\text{cocaine_user}}=0.36)$
 
   *How well can we predict who is a cocaine user based on demographics, personality traits, and legal substance use?*
 
 ::: {.fragment .mt1}
-- **Walkthrough #2 (Regression)**
+- **Walkthrough #2**
 
   [Cali Housing](https://jmgirard.github.io/tips2022ml/data/calihousing.csv) $(n=2000, \text{Range}=\$15\text{k}\text{ to }\$500\text{k})$
 
@@ -296,7 +300,7 @@ p3 <-
 ::: {.fragment}
 - Our primary tool for these goals is **data splitting**
 
-  - We learn feature-label relationships and select the optimal parameter values using one part (the [training set]{.b .blue})
+  - We learn feature-label relationships and tune the model complexity using one part (the [training set]{.b .blue})
   
   - We evaluate the model's ability to generalize to new data in another part that it has never seen before (the [testing set]{.b .green})
 :::
