@@ -2,7 +2,7 @@
 title: "Machine Learning in R with {tidymodels}"
 ---
 
-A three-hour workshop introducing the basic concepts of and applied skills for predictive machine learning in R. Developed and instructed by [Jeffrey Girard](https://github.com/jmgirard) for the [Technology in Psychiatry Summit](https://home.mcleanhospital.org/tips) (October 26, 2022).
+A three-hour workshop introducing the basics of predictive machine learning in R. Developed and instructed by [Jeffrey Girard](https://github.com/jmgirard) for the [Technology in Psychiatry Summit](https://home.mcleanhospital.org/tips) (October 26, 2022).
 
 ![](./img/predictive_analytics_357EDD.svg){.hero}
 

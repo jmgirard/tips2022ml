@@ -31,8 +31,6 @@ format:
 ![](./img/predictive_analytics_357EDD.svg){.absolute bottom=0 right=0 width=400}
 :::
 
-
-
 <!-- Overview -->
 
 # Overview
@@ -52,14 +50,14 @@ format:
 :::
 
 ::: {.column width="60%"}
-#### Background
+**Background**
 
 -   [Assistant Professor]{.b .green}, *University of Kansas*
 -   Clinical Psychological Science Program
 -   Brain, Behavior, and Quantitative Science Program
 
 ::: {.mt1}
-#### Research Areas
+**Research Areas**
 
 -   Psychological/Clinical Assessment
 -   Affective/Interpersonal Communication
@@ -95,7 +93,7 @@ format:
 
   *How well can we predict who is a cocaine user based on demographics, personality traits, and legal substance use?*
 
-::: {.fragment .mt1}
+::: {.mt1}
 - **Walkthrough #2**
 
   [Cali Housing](https://jmgirard.github.io/tips2022ml/data/calihousing.csv) $(n=2000, \text{Range}=\$15\text{k}\text{ to }\$500\text{k})$
