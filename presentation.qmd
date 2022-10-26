@@ -91,14 +91,14 @@ Workshop Slack Channel: <https://bit.ly/tips2022ml>
 
 - **Walkthrough #1 (Classification)**
 
-  [Drug Consumption](https://raw.githubusercontent.com/jmgirard/tips2022ml/master/data/drug_consumption.csv) $(n=1876, p_{\text{cocaine_user}}=0.36)$
+  [Drug Consumption](https://jmgirard.github.io/tips2022ml/data/drug_consumption.csv) $(n=1876, p_{\text{cocaine_user}}=0.36)$
 
   *How well can we predict who is a cocaine user based on demographics, personality traits, and legal substance use?*
 
 ::: {.fragment .mt1}
 - **Walkthrough #2 (Regression)**
 
-  [Cali House](https://raw.githubusercontent.com/jmgirard/tips2022ml/master/data/calihouse_2000.csv) $(n=2000, \text{Min}=\$15\text{k}, \text{Max}=\$500\text{k})$
+  [Cali Housing](https://jmgirard.github.io/tips2022ml/data/calihousing.csv) $(n=2000, \text{Range}=\$15\text{k}\text{ to }\$500\text{k})$
 
   *How well can we predict the median house value of a block in 1990 California based on its houses, population, and location?*
 :::
@@ -337,8 +337,6 @@ p3 <-
 ::: {.fragment}
 - Our primary tool for these goals is **data splitting**
 
-  - Instead of training our model on all of our data...
-  
   - We split the data into two completely separate parts
 
   - We learn feature-label relationships and select the optimal parameter values using one part (the [training set]{.b .blue})

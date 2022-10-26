@@ -29,12 +29,12 @@ read_csv("./data/drug_consumption.csv")
 
 Real data on 2,000 blocks in California from 1990 about houses, population, and location. Used in Walkthrough #2 to predict median house value (`house_mdn_value`, regression).
 
-<a href="https://jmgirard.github.io/tips2022ml/data/calhouse_2000.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
+<a href="https://jmgirard.github.io/tips2022ml/data/calhousing.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
 
 ```{r}
 #| echo: false
 #| message: false
-read_csv("./data/calihouse_2000.csv")
+read_csv("./data/calihousing.csv")
 ```
 
 ## Additional Datasets

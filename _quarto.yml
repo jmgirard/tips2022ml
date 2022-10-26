@@ -1,5 +1,7 @@
 project:
   type: website
+  resources:
+    - "data/*.csv"
 
 website:
   title: "MLR Workshop"
