@@ -826,6 +826,8 @@ Which variables were most important to prediction?
 - Not all algorithms support variable importance measures
 
 ```{r, eval=FALSE, echo=TRUE}
+library(vip)
+
 # Extract the variable importance measures
 coke_final |> 
   extract_fit_parsnip() |> 
@@ -957,7 +959,7 @@ library(tidymodels)
 library(vip)
 
 # 1. Import and tidy data
-calihouse <- read_csv("./data/calihouse_2000.csv", show_col_types = FALSE)
+calihouse <- read_csv("./data/calihousing.csv", show_col_types = FALSE)
 
 # 2. Split data for training and testing
 set.seed(2022)
