@@ -22,6 +22,7 @@ Real data on 1,876 participants' demographics, personality traits, and substance
 ```{r}
 #| echo: false
 #| message: false
+#| eval: true
 read_csv("./data/drug_consumption.csv")
 ```
 
@@ -29,11 +30,12 @@ read_csv("./data/drug_consumption.csv")
 
 Real data on 2,000 blocks in California from 1990 about houses, population, and location. Used in Walkthrough #2 to predict median house value (`house_mdn_value`, regression).
 
-<a href="https://jmgirard.github.io/tips2022ml/data/calhousing.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
+<a href="https://jmgirard.github.io/tips2022ml/data/calihousing.csv"><button type="button" class="btn btn-primary">Download CSV</button></a>
 
 ```{r}
 #| echo: false
 #| message: false
+#| eval: true
 read_csv("./data/calihousing.csv")
 ```
 
@@ -48,6 +50,7 @@ Real data on the satisfaction and experience of 10,000 customers of an airline. 
 ```{r}
 #| echo: false
 #| message: false
+#| eval: true
 read_csv("./data/airsat.csv")
 ```
 
@@ -60,6 +63,7 @@ Real data on 1,309 passengers on the Titanic. Can be used to predict survival (`
 ```{r}
 #| echo: false
 #| message: false
+#| eval: true
 read_csv("./data/titanic.csv")
 ```
 
@@ -72,5 +76,6 @@ Real data on the potability and chemical properties of 2,011 water bodies. Can b
 ```{r}
 #| echo: false
 #| message: false
+#| eval: true
 read_csv("./data/water.csv")
 ```
